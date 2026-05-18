@@ -10,6 +10,11 @@ Bash scripts usually start as simple 10-line automations but inevitably mutate i
 
 It goes beyond standard syntax checking to enforce a rigorous architectural philosophy, focusing on strict POSIX compliance, predictable formatting, and visual hierarchy. It acts as the ultimate architectural guardrail for both your CI/CD pipelines and AI coding assistants, ensuring your scripts remain reliable, modular, free of dead code, and unbreakable as they scale.
 
+<p align="center">
+  Example terminal output:</br>
+  <img src="assets/screenshot.png" alt="Shellens Terminal Output" width="850">
+</p>
+
 ## Features at a Glance
 
 - **AST Analysis Engine:** Uses a robust `tree-sitter` AST (Abstract Syntax Tree) to perform structural parsing. This perfectly tracks nested scopes, single/double/ANSI C quotes (`$'...'`), deeply nested command substitutions (`$(...)`), and heredocs where standard Regex parsers completely fail. Multi-file parsing is highly optimized via internal AST memory caching to prevent redundant disk I/O.
