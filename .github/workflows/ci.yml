@@ -25,11 +25,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y shellcheck shfmt
 
-    - name: Run linters
-      run: |
-        flake8 shellens.py test_shellens.py
-        pylint shellens.py test_shellens.py
-
     - name: Run tests
       run: |
-        python3 -m unittest test_shellens.py
+        python3 -m unittest discover tests

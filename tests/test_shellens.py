@@ -9,7 +9,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from shellens import check_format, clear_ast_cache, __version__, get_color, C_RED, C_YELLOW, C_CYAN, C_BLUE, C_RESET, analyze_dead_code
 
 
@@ -1657,7 +1657,7 @@ class TestShellens(unittest.TestCase):
         if os.path.exists(md_file):
             os.remove(md_file)
 
-        shellens_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'shellens.py')
+        shellens_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'shellens.py')
         result = subprocess.run(
             [sys.executable, shellens_path, '--markdown', self.test_script],
             stdout=subprocess.PIPE,
@@ -2049,7 +2049,7 @@ class TestShellensCLI(unittest.TestCase):
     """Test CLI functionality"""
     def setUp(self):
         """Set up test environment"""
-        self.shellens_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'shellens.py')
+        self.shellens_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'shellens.py')
         self.temp_dir = tempfile.TemporaryDirectory()  # pylint: disable=consider-using-with
         self.orig_cwd = os.getcwd()
         os.chdir(self.temp_dir.name)
@@ -2262,6 +2262,33 @@ class TestShellensCLI(unittest.TestCase):
         self.assertNotIn('\033[', result_env.stdout)
 
         os.remove(test_file)
+
+
+class TestCodeQuality(unittest.TestCase):
+    """Verify code quality using external linters"""
+    def setUp(self):
+        """Set up test environment"""
+        self.repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        self.shellens_path = os.path.join(self.repo_root, 'shellens.py')
+        self.test_shellens_path = os.path.join(self.repo_root, 'tests', 'test_shellens.py')
+
+    def test_flake8(self):
+        """Run flake8 linter"""
+        config_path = os.path.join(self.repo_root, 'tests', '.flake8')
+        result = subprocess.run(
+            ['flake8', f'--config={config_path}', self.shellens_path, self.test_shellens_path],
+            capture_output=True, check=False, text=True
+        )
+        self.assertEqual(result.returncode, 0, f"flake8 failed:\n{result.stdout}\n{result.stderr}")
+
+    def test_pylint(self):
+        """Run pylint linter"""
+        rc_path = os.path.join(self.repo_root, 'tests', '.pylintrc')
+        result = subprocess.run(
+            ['pylint', f'--rcfile={rc_path}', self.shellens_path, self.test_shellens_path],
+            capture_output=True, check=False, text=True
+        )
+        self.assertEqual(result.returncode, 0, f"pylint failed:\n{result.stdout}\n{result.stderr}")
 
 
 if __name__ == '__main__':

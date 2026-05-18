@@ -23,7 +23,6 @@ It goes beyond standard syntax checking to enforce a rigorous architectural phil
 - **Cyclomatic Complexity:** Mathematically scores functions based on branching logic to prevent unreadable monoliths.
 - **CI/CD Ready:** Exits with `1` if any violations are found, instantly failing the pipeline. Shellens operates with a strict "Fail-Fast" validation pass: if any provided file is missing, unreadable, or if an unknown CLI flag is provided, it instantly aborts with an error `1` without performing partial linting. Supports beautiful colorized CLI output.
 - **AI/LLM Verification Loop:** Outputs clear, human-readable language detailing exact infractions, making it an ideal guardrail for AI coding assistants. When used in an automated loop, it forces the AI to iterate and verify that every generated line strictly adheres to architectural rules before code is finalized.
-- **Comprehensive Test Suite:** Backed by an extensive, fully sanitized Python `unittest` suite (`test_shellens`) covering almost 100 complex edge cases to ensure zero regressions.
 
 ## Tooling & Dependencies
 
@@ -74,10 +73,10 @@ shellens - <<< '#!/bin/bash\necho "Hello"'
 
 ## Development & Testing
 
-To verify functionality before deployment or after making custom modifications, run the included `unittest` suite. The test suite automatically cleans up its own generated test files and leaves zero artifacts.
+To verify functionality before deployment or after making custom modifications, run the included `unittest` suite. The test suite executes nearly 100 functional tests to prevent regressions, automatically runs `flake8` and `pylint` to ensure codebase standards are maintained, and leaves zero artifacts by cleaning up its own generated test files.
 
 ```bash
-python3 -m unittest test_shellens.py
+python3 -m unittest discover tests
 ```
 
 ## Philosophy & Customization
