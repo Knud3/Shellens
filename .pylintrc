@@ -1,0 +1,18 @@
+[MASTER]
+disable=
+    broad-exception-caught,
+    invalid-name,
+    line-too-long,
+    redefined-outer-name,
+    too-many-arguments,
+    too-many-branches,
+    too-many-instance-attributes,
+    too-many-lines,
+    too-many-locals,
+    too-many-nested-blocks,
+    too-many-positional-arguments,
+    too-many-public-methods,
+    too-many-statements,
+    unnecessary-pass,
+    wrong-import-order,
+    wrong-import-position

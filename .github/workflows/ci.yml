@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install tree-sitter tree-sitter-bash flake8 pylint
+        sudo apt-get update
+        sudo apt-get install -y shellcheck shfmt
+
+    - name: Run linters
+      run: |
+        flake8 shellens.py test_shellens.py
+        pylint shellens.py test_shellens.py
+
+    - name: Run tests
+      run: |
+        python3 -m unittest test_shellens.py
