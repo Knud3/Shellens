@@ -1,3 +1,5 @@
+[![CI](https://github.com/Knud3/Shellens/actions/workflows/ci.yml/badge.svg)](https://github.com/Knud3/Shellens/actions/workflows/ci.yml)
+
 # Shellens: A Better Linter for Bash and Shell
 
 ## Why Shellens? (...if you already use ShellCheck and shfmt)
